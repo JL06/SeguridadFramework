@@ -1,11 +1,17 @@
 import XCTest
 @testable import SeguridadFramework
+import CryptoKit
 
 final class SeguridadFrameworkTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(SeguridadFramework().text, "Hello, World!")
+    func testCifradoDecodificado () {
+        let llaveAleatorio = SymmetricKey(size: .bits256)
+        let cifrador = SeguridadFramework(llave: llaveAleatorio)
+        
+        let mensaje = "Mensaje cifrado"
+        let msjCif = cifrador.cifrar(cadena: mensaje)
+        XCTAssertNotNil(msjCif)
+        
+        let decod = cifrador.descifrar(cadena: msjCif!)
+        XCTAssertEqual(mensaje, decod)
     }
 }
